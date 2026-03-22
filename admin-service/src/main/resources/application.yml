@@ -21,3 +21,11 @@ services:
 internal:
   api:
     key: your-secret-internal-key
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
