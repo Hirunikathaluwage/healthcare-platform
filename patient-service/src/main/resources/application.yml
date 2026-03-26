@@ -25,8 +25,22 @@ spring:
       max-file-size: 10MB
       max-request-size: 10MB
 
+  # Upload folder configuration
+  file:
+    upload-dir: uploads   # <-- change this if you want an absolute path, e.g., C:/Users/saral/uploads
+
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+
+# ==========================
+# Eureka Client Configuration
+# ==========================
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/  # URL of your Eureka Server
+  instance:
+    prefer-ip-address: true
