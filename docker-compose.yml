@@ -87,6 +87,22 @@ services:
     networks:
       - healthcare-net
 
+  aisymptom-service:
+    image: 2002rusira/aisymptomservice:v2
+    ports:
+      - "8098:8098"
+    environment:
+      - PORT=8098
+      - INTERNAL_API_KEY=your-secret-internal-key
+      - GEMINI_KEY=AIzaSyDoEwx8LaiED2SVuhQPNo9gOVXrZGY9NJM
+      - EUREKA_SERVER=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+      - api-gateway
+    networks:
+      - healthcare-net
+
+
 networks:
   healthcare-net:
     driver: bridge
