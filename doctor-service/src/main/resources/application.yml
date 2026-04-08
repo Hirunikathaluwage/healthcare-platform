@@ -1,0 +1,48 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: doctor-service
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://doctor-db:5432/doctor_db}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:hiruni123}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://eureka-server:8761/eureka/}
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+
+jwt:
+  secret: ${JWT_SECRET:mySecretKeyForJWTGenerationWithAtLeast32CharactersLong}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.healthcare.doctor: DEBUG
