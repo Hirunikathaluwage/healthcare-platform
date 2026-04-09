@@ -29,11 +29,26 @@ spring:
           predicates:
             - Path=/api/admin/**
 
-#        - id: aisymptom-service
-#          uri: lb://aisymptom-service
-#          predicates:
-#            - Path=/api/ai/**
+        - id: aisymptom-service
+          uri: lb://aisymptom-service
+          predicates:
+            - Path=/api/ai/**
+
         - id: doctor-service
           uri: lb://doctor-service
           predicates:
               - Path=/doctor/**
+            - Path=/api/ai/**
+
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
