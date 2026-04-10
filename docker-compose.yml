@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: hiruni123
       POSTGRES_DB: healthcare
     volumes:
-      - ./docker-data/postgres:/var/lib/postgresql/data  #for data persistency
+      - ./docker-data/postgres:/var/lib/postgresql/data
     networks:
       - healthcare-net
 
@@ -110,6 +110,27 @@ services:
     depends_on:
       - postgres
       - eureka-server
+    networks:
+      - healthcare-net
+
+  # Appointment Service
+  appointment-service:
+    build: ./appointment-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/healthcare
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=hiruni123
+      - INTERNAL_API_KEY=your-secret-internal-key
+      - JWT_SECRET=mySecretKeyForJWTGenerationWithAtLeast32CharactersLong
+      - JWT_EXPIRATION=3600000
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+    depends_on:
+      - postgres
+      - eureka-server
+      - doctor-service
+      - auth-service
     networks:
       - healthcare-net
 
