@@ -54,4 +54,12 @@ public class InternalDoctorController {
 
         return ResponseEntity.ok("Slot released");
     }
+
+    @GetMapping("/slots/{slotId}")
+    public ResponseEntity<AvailabilitySlot> getSlot(@PathVariable Long slotId) {
+        AvailabilitySlot slot = repository.findById(slotId)
+                .orElseThrow(() -> new RuntimeException("Slot not found"));
+        return ResponseEntity.ok(slot);
+    }
+
 }
