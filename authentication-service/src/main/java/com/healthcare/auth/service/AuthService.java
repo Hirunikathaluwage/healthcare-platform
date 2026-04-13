@@ -50,7 +50,7 @@ public class AuthService {
     }
 
     @Transactional
-    public User registerUser(RegisterRequest request) {
+    public UserResponse registerUser(RegisterRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
             throw new RuntimeException("Username already taken");
         }
@@ -60,6 +60,11 @@ public class AuthService {
 
         User user = new User();
         user.setUsername(request.getUsername());
+
+        if (request.getFullName() != null && !request.getFullName().isBlank()) {
+            user.setFullName(request.getFullName());
+        }
+
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setPhoneNumber(request.getPhoneNumber());
@@ -75,7 +80,19 @@ public class AuthService {
             user.setApproved(true);
         }
 
-        return userRepository.save(user);
+        user = userRepository.save(user);
+
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setPhoneNumber(user.getPhoneNumber());
+        response.setStatus(user.getStatus());
+        response.setApproved(user.isApproved());
+        response.setCreatedAt(user.getCreatedAt());
+        response.setRoles(user.getRoles());
+
+        return response;
     }
 
     @Transactional
