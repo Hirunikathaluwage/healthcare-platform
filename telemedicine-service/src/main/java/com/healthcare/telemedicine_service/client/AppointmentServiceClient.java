@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(name = "appointment-service")
 public interface AppointmentServiceClient {
 
-    @GetMapping("/appointments/{id}")
+    @GetMapping("/internal/appointments/{id}")
     AppointmentResponse getAppointmentById(@PathVariable("id") Long id,
                                            @RequestHeader("X-INTERNAL-KEY") String internalKey);
 }
