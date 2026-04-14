@@ -47,6 +47,11 @@ spring:
           uri: lb://telemedicine-service
           predicates:
             - Path=/api/video/**
+        - id: payment-service
+          uri: lb://payment-service
+          predicates:
+            - Path=/api/payments/**
+
       globalcors:
         corsConfigurations:
           '[/**]':
